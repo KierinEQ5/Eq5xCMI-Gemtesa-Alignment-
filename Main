@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gemtesa HCP AMO Program — Client Alignment Brief</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Mono:wght@400;500&display=swap');
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --dark:#001219;--teal:#005F73;--teal-l:#0A9396;--teal-ll:#94D2BD;
+    --gold:#EE9B00;--amber:#CA6702;--red:#BB3E03;--crimson:#9B2226;
+    --cream:#F4F1E8;--bg:#F7F5EE;--white:#FFFFFF;--border:#E2E0D8;
+    --muted:#6B7280;--mid:#3A3A3A;--gray:#E9ECEF;
+  }
+  html{font-family:'DM Sans',sans-serif;font-size:15px}
+  body{background:var(--bg);color:var(--dark);min-height:100vh}
+
+  /* ── HEADER ── */
+  .header{background:var(--dark);padding:36px 48px 28px}
+  .header-top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap;margin-bottom:16px}
+  .header h1{font-size:26px;font-weight:700;color:var(--white);letter-spacing:-0.4px;line-height:1.2}
+  .header h1 span{color:var(--gold)}
+  .header-to{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px 18px;font-size:11px;color:rgba(255,255,255,0.7);font-family:'DM Mono',monospace;white-space:nowrap}
+  .header-to strong{color:var(--gold);display:block;font-size:10px;margin-bottom:4px;letter-spacing:0.5px;text-transform:uppercase}
+  .header-meta{display:flex;gap:24px;flex-wrap:wrap}
+  .header-meta-item{font-size:11px;color:rgba(255,255,255,0.45);font-family:'DM Mono',monospace}
+  .header-meta-item span{color:rgba(255,255,255,0.75);font-weight:500}
+
+  /* ── NAV ── */
+  .nav{background:rgba(0,0,0,0.3);border-bottom:1px solid rgba(255,255,255,0.08);padding:0 48px;display:flex;gap:0;overflow-x:auto}
+  .nav a{padding:13px 20px;font-size:11px;font-weight:600;color:rgba(255,255,255,0.4);text-decoration:none;border-bottom:3px solid transparent;white-space:nowrap;letter-spacing:0.4px;transition:all 0.2s}
+  .nav a:hover{color:rgba(255,255,255,0.75)}
+  .nav a.priority{color:var(--gold);border-bottom-color:var(--gold)}
+
+  /* ── MAIN ── */
+  .main{max-width:1100px;padding:40px 48px 80px}
+
+  /* ── ALERT BANNER ── */
+  .alert{border-radius:10px;padding:16px 20px;margin-bottom:28px;display:flex;gap:14px;align-items:flex-start}
+  .alert-est{background:linear-gradient(135deg,#1a3a4a,#0A2535);border:1px solid #2A5570;border-left:4px solid var(--gold)}
+  .alert-action{background:linear-gradient(135deg,#2A1500,#1A0D00);border:1px solid #5A3000;border-left:4px solid var(--amber)}
+  .alert-icon{font-size:20px;flex-shrink:0;margin-top:2px}
+  .alert h4{font-size:11px;font-weight:700;letter-spacing:0.4px;text-transform:uppercase;margin-bottom:6px}
+  .alert-est h4{color:var(--gold)}
+  .alert-action h4{color:var(--amber)}
+  .alert p{font-size:12px;line-height:1.7}
+  .alert-est p{color:rgba(255,255,255,0.7)}
+  .alert-action p{color:rgba(255,255,255,0.7)}
+  .alert strong{color:rgba(255,255,255,0.95)}
+
+  /* ── SECTION ── */
+  .section{margin-bottom:48px}
+  .section-hdr{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+  .section-hdr h2{font-size:16px;font-weight:700;color:var(--dark)}
+  .section-hdr .badge-num{width:28px;height:28px;border-radius:50%;background:var(--teal);color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .section-hdr.priority .badge-num{background:var(--gold);color:var(--dark)}
+  .section-hdr::after{content:'';flex:1;height:1px;background:var(--border)}
+  .section-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:14px}
+
+  /* ── CARDS ── */
+  .card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:22px 24px;margin-bottom:16px}
+  .card-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+  .card-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px}
+  .card h3{font-size:13px;font-weight:700;color:var(--dark);margin-bottom:10px}
+  .card p{font-size:12px;color:var(--mid);line-height:1.7}
+
+  /* ── BUDGET SPLIT TABLE ── */
+  .split-phases{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+  .phase-card{border-radius:10px;padding:18px 16px}
+  .phase-card h4{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;opacity:0.8;margin-bottom:6px}
+  .phase-card .phase-name{font-size:14px;font-weight:700;margin-bottom:8px;color:white}
+  .phase-card .phase-date{font-size:10px;font-family:'DM Mono',monospace;opacity:0.7;margin-bottom:12px;color:white}
+  .phase-pill{display:inline-block;padding:4px 10px;border-radius:4px;font-size:10px;font-weight:700;margin:3px 3px 0 0;background:rgba(255,255,255,0.15);color:white}
+  .ph1{background:#005F73} .ph2{background:#9B2226} .ph3{background:#CA6702} .ph4{background:#BB3E03}
+
+  .budget-table{width:100%;border-collapse:collapse;font-size:11px;margin-top:4px}
+  .budget-table th{background:var(--dark);color:white;padding:9px 12px;text-align:left;font-size:10px;font-weight:600;white-space:nowrap}
+  .budget-table th.r{text-align:right}
+  .budget-table td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--mid);vertical-align:middle}
+  .budget-table td.r{text-align:right;font-family:'DM Mono',monospace;font-size:10px}
+  .budget-table td.bold-r{text-align:right;font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:var(--dark)}
+  .budget-table td.imp-r{text-align:right;font-family:'DM Mono',monospace;font-size:10px;color:var(--teal-l)}
+  .budget-table tr:nth-child(even) td{background:#FAFAF7}
+  .budget-table tr.total td{background:var(--cream);font-weight:700;color:var(--dark);border-top:2px solid var(--teal)}
+  .budget-table tr.total td.r,.budget-table tr.total td.bold-r{font-weight:700}
+  .phase-pill-sm{display:inline-block;padding:2px 8px;border-radius:3px;font-size:9px;font-weight:700;color:white;white-space:nowrap}
+
+  /* ── TOUCHPOINT TABLE ── */
+  .tp-table{width:100%;border-collapse:collapse;font-size:11px}
+  .tp-table th{background:var(--dark);color:white;padding:9px 12px;text-align:left;font-size:10px;font-weight:600;white-space:nowrap}
+  .tp-table th.c{text-align:center}
+  .tp-table td{padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:middle;font-size:11px;color:var(--mid)}
+  .tp-table td.c{text-align:center}
+  .tp-table tr:nth-child(even) td{background:#FAFAF7}
+  .tp-chip{display:inline-block;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:600;color:white;white-space:nowrap}
+  .check{color:#166534;font-weight:700} .cross{color:#9B2226;font-weight:700}
+
+  /* ── ALIGNMENT ITEMS ── */
+  .align-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .align-item{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:18px 20px;border-left:4px solid var(--teal)}
+  .align-item.urgent{border-left-color:var(--gold)}
+  .align-item.blocker{border-left-color:var(--crimson)}
+  .align-item h4{font-size:12px;font-weight:700;color:var(--dark);margin-bottom:6px}
+  .align-item .owner{font-size:10px;color:var(--teal);font-weight:600;margin-bottom:10px;font-family:'DM Mono',monospace}
+  .align-item.urgent .owner{color:var(--amber)}
+  .align-item.blocker .owner{color:var(--crimson)}
+  .align-item ul{list-style:none;padding:0}
+  .align-item ul li{font-size:11px;color:var(--mid);padding:4px 0;border-bottom:1px solid #F0EDE5;line-height:1.5}
+  .align-item ul li:last-child{border-bottom:none}
+  .align-item ul li::before{content:'→ ';color:var(--teal);font-weight:600}
+  .align-item.urgent ul li::before{color:var(--amber)}
+  .align-item.blocker ul li::before{color:var(--crimson)}
+
+  /* ── PROGRAM OVERVIEW ── */
+  .overview-grid{display:grid;grid-template-columns:2fr 1fr;gap:20px;margin-bottom:20px}
+  .kpi-mini{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .kpi-m{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:14px;border-top:3px solid var(--teal-l)}
+  .kpi-m .lbl{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);margin-bottom:6px}
+  .kpi-m .val{font-size:18px;font-weight:700;color:var(--dark);line-height:1}
+  .kpi-m .sub{font-size:9px;color:var(--teal);margin-top:3px;font-family:'DM Mono',monospace}
+
+  /* ── FOOTER ── */
+  .footer{background:var(--dark);padding:24px 48px;margin-top:0}
+  .footer p{font-size:11px;color:rgba(255,255,255,0.4);line-height:1.6}
+  .footer strong{color:rgba(255,255,255,0.65)}
+
+  @media(max-width:800px){
+    .header,.nav,.main,.footer{padding-left:20px;padding-right:20px}
+    .card-row,.card-row-3,.split-phases,.align-grid,.overview-grid,.kpi-mini{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div>
+      <h1>GEMTESA HCP AMO PROGRAM<br><span>Campaign Alignment Brief</span></h1>
+    </div>
+    <div class="header-to">
+      <strong>Prepared for</strong>
+      CMI<br>
+      CMI / Compas — Engagement Strategy
+    </div>
+  </div>
+  <div class="header-meta">
+    <div class="header-meta-item">Prepared by: <span>Equals 5</span></div>
+    <div class="header-meta-item">Program: <span>Gemtesa HCP Meta Paid Social</span></div>
+    <div class="header-meta-item">Period: <span>April 2026 – March 2027</span></div>
+    <div class="header-meta-item">Date: <span>May 2026</span></div>
+    <div class="header-meta-item">Status: <span>Pre-Launch · Alignment Needed</span></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav" style="background:var(--dark)">
+  <a href="#budget" class="priority">① Budget Split (Align First)</a>
+  <a href="#touchpoints">② AMO Touchpoints</a>
+  <a href="#program">③ Program Overview</a>
+  <a href="#alignment">④ Open Items</a>
+</div>
+
+<div class="main">
+
+  <!-- ESTIMATION ALERT -->
+  <div style="margin-top:32px"></div>
+  <div class="alert alert-est">
+    <div class="alert-icon">⚠️</div>
+    <div>
+      <h4>All Spend &amp; Impression Figures Are Estimates — For Planning Purposes Only</h4>
+      <p>All dollar and impression figures in this document are <strong>projections based on a $166.76 CPM rate applied to planned impression volumes</strong>. Actual delivery will vary. The EQ5 platform dynamically optimizes each asset within its AMO touchpoint group — <strong>higher-performing assets will naturally accumulate more impressions while others receive less</strong>. Final spend per asset will reflect real-time platform optimization, not the even distributions shown here. These figures are provided to align on budget allocation strategy, not to set hard delivery commitments.</p>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 1: BUDGET SPLIT (PRIORITY) ══ -->
+  <div class="section" id="budget">
+    <div class="section-hdr priority">
+      <div class="badge-num">1</div>
+      <h2>Budget Split Strategy — Primary Alignment Item</h2>
+    </div>
+
+    <div class="alert alert-action">
+      <div class="alert-icon">🎯</div>
+      <div>
+        <h4>Action Required — Please Confirm This Allocation</h4>
+        <p>The budget split below reflects the agreed-upon phased strategy: <strong>Always On → DOL activation (40/60) → AMO/Trigger activation (60/40)</strong>. We need CMI to formally confirm this structure before we finalize campaign architecture and trafficking in the EQ5 platform.</p>
+      </div>
+    </div>
+
+    <div class="section-label">How budget shifts across the three program phases</div>
+    <div class="split-phases">
+      <div class="phase-card ph1">
+        <h4>Phase 1</h4>
+        <div class="phase-name">Always On Only</div>
+        <div class="phase-date">April 15 – June 14, 2026</div>
+        <span class="phase-pill">100% Always On</span>
+        <div style="font-size:10px;color:rgba(255,255,255,0.6);margin-top:10px;line-height:1.5">Launches <strong style="color:white">mid-month (April 15)</strong> — all always-on assets go live simultaneously. April spend reflects ~2.5 weeks only (~$1.6K). Full monthly run rate (~$57K) begins May 1.</div>
+      </div>
+      <div class="phase-card ph2">
+        <h4>Phase 2</h4>
+        <div class="phase-name">DOL Active</div>
+        <div class="phase-date">June 15 – August 9 or 16, 2026</div>
+        <span class="phase-pill">40% DOL</span>
+        <span class="phase-pill">60% Always On</span>
+        <div style="font-size:10px;color:rgba(255,255,255,0.6);margin-top:10px;line-height:1.5">Physician influencer layer activates on Instagram. 40% of monthly budget shifts to DOL content spread across all 3 doctors' assets.</div>
+      </div>
+      <div class="phase-card ph3">
+        <h4>Phase 3</h4>
+        <div class="phase-name">Overlap (August)</div>
+        <div class="phase-date">August 3–16, 2026</div>
+        <span class="phase-pill">~10% DOL</span>
+        <span class="phase-pill">~54% Trigger</span>
+        <span class="phase-pill">~36% AO</span>
+        <div style="font-size:10px;color:rgba(255,255,255,0.6);margin-top:10px;line-height:1.5">Transitional month. DOL winds down (ends August 9 or 16) as AMO Trigger List activates (August 15). Approximate split — needs final confirmation.</div>
+      </div>
+      <div class="phase-card ph4">
+        <h4>Phase 4</h4>
+        <div class="phase-name">Full AMO Active</div>
+        <div class="phase-date">August 17 – March 31, 2027</div>
+        <span class="phase-pill">60% Trigger/AMO</span>
+        <span class="phase-pill">40% Always On</span>
+        <div style="font-size:10px;color:rgba(255,255,255,0.6);margin-top:10px;line-height:1.5">AMO trigger files drive 60% of budget. Trigger List (TL) segmentation mirrors Always On — equal URO/PCP weighting.</div>
+      </div>
+    </div>
+
+    <div class="section-label">Estimated monthly budget &amp; impression split by phase — figures are projections only</div>
+    <div class="card" style="padding:0;overflow:hidden">
+    <table class="budget-table">
+      <thead>
+        <tr>
+          <th>Month</th>
+          <th>Phase</th>
+          <th class="r">Total $ <span style="font-weight:400;opacity:0.6">(est.)</span></th>
+          <th class="r">Total Imps <span style="font-weight:400;opacity:0.6">(est.)</span></th>
+          <th class="r">Always On $</th>
+          <th class="r">AO Imps</th>
+          <th class="r">DOL $</th>
+          <th class="r">DOL Imps</th>
+          <th class="r">Trigger/AMO $</th>
+          <th class="r">Trigger Imps</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Apr 2026</strong> <span style="font-size:9px;color:var(--muted);font-style:italic">(½ month · live April 15)</span></td><td><span class="phase-pill-sm" style="background:#005F73">Always On</span></td><td class="bold-r">$1,627</td><td class="imp-r">9,756</td><td class="r">$1,627</td><td class="imp-r">9,756</td><td class="r" style="color:#CCC">—</td><td class="imp-r" style="color:#CCC">—</td><td class="r" style="color:#CCC">—</td><td class="imp-r" style="color:#CCC">—</td></tr>
+        <tr><td><strong>May 2026</strong></td><td><span class="phase-pill-sm" style="background:#005F73">Always On</span></td><td class="bold-r">$56,993</td><td class="imp-r">341,766</td><td class="r">$56,993</td><td class="imp-r">341,766</td><td class="r" style="color:#CCC">—</td><td class="imp-r" style="color:#CCC">—</td><td class="r" style="color:#CCC">—</td><td class="imp-r" style="color:#CCC">—</td></tr>
+        <tr><td><strong>Jun 2026</strong></td><td><span class="phase-pill-sm" style="background:#9B2226">DOL Active</span></td><td class="bold-r">$57,532</td><td class="imp-r">345,089</td><td class="r">$34,519</td><td class="imp-r">207,053</td><td class="r" style="color:#9B2226;font-weight:600">$23,013</td><td class="imp-r" style="color:#9B2226">138,036</td><td class="r" style="color:#CCC">—</td><td class="imp-r" style="color:#CCC">—</td></tr>
+        <tr><td><strong>Jul 2026</strong></td><td><span class="phase-pill-sm" style="background:#9B2226">DOL Active</span></td><td class="bold-r">$56,993</td><td class="imp-r">341,895</td><td class="r">$34,196</td><td class="imp-r">205,137</td><td class="r" style="color:#9B2226;font-weight:600">$22,797</td><td class="imp-r" style="color:#9B2226">136,758</td><td class="r" style="color:#CCC">—</td><td class="imp-r" style="color:#CCC">—</td></tr>
+        <tr><td><strong>Aug 2026</strong></td><td><span class="phase-pill-sm" style="background:#CA6702">Overlap</span></td><td class="bold-r">$57,532</td><td class="imp-r">345,146</td><td class="r">$20,712</td><td class="imp-r">124,253</td><td class="r" style="color:#9B2226;font-weight:600">$5,753</td><td class="imp-r" style="color:#9B2226">34,515</td><td class="r" style="color:#BB3E03;font-weight:600">$31,067</td><td class="imp-r" style="color:#BB3E03">186,378</td></tr>
+        <tr><td><strong>Sep 2026</strong></td><td><span class="phase-pill-sm" style="background:#BB3E03">AMO Active</span></td><td class="bold-r">$56,993</td><td class="imp-r">341,768</td><td class="r">$22,797</td><td class="imp-r">136,707</td><td class="r" style="color:#CCC">—</td><td class="imp-r" style="color:#CCC">—</td><td class="r" style="color:#BB3E03;font-weight:600">$34,196</td><td class="imp-r" style="color:#BB3E03">205,061</td></tr>
+        <tr><td><strong>Oct 2026</strong></td><td><span class="phase-pill-sm" style="background:#BB3E03">AMO Active</span></td><td class="bold-r">$56,993</td><td class="imp-r">341,768</td><td class="r">$22,797</td><td class="imp-r">136,707</td><td class="r" style="color:#CCC">—</td><td class="imp-r" style="color:#CCC">—</td><td class="r" style="color:#BB3E03;font-weight:600">$34,196</td><td class="imp-r" style="color:#BB3E03">205,061</td></tr>
+        <tr><td><strong>Nov 2026</strong></td><td><span class="phase-pill-sm" style="background:#BB3E03">AMO Active</span></td><td class="bold-r">$57,532</td><td class="imp-r">345,001</td><td class="r">$23,013</td><td class="imp-r">138,000</td><td class="r" style="color:#CCC">—</td><td class="imp-r" style="color:#CCC">—</td><td class="r" style="color:#BB3E03;font-weight:600">$34,519</td><td class="imp-r" style="color:#BB3E03">207,001</td></tr>
+        <tr><td><strong>Dec 2026</strong></td><td><span class="phase-pill-sm" style="background:#BB3E03">AMO Active</span></td><td class="bold-r">$56,993</td><td class="imp-r">341,768</td><td class="r">$22,797</td><td class="imp-r">136,707</td><td class="r" style="color:#CCC">—</td><td class="imp-r" style="color:#CCC">—</td><td class="r" style="color:#BB3E03;font-weight:600">$34,196</td><td class="imp-r" style="color:#BB3E03">205,061</td></tr>
+        <tr><td><strong>Jan 2027</strong></td><td><span class="phase-pill-sm" style="background:#BB3E03">AMO Active</span></td><td class="bold-r">$56,993</td><td class="imp-r">341,768</td><td class="r">$22,797</td><td class="imp-r">136,707</td><td class="r" style="color:#CCC">—</td><td class="imp-r" style="color:#CCC">—</td><td class="r" style="color:#BB3E03;font-weight:600">$34,196</td><td class="imp-r" style="color:#BB3E03">205,061</td></tr>
+        <tr><td><strong>Feb 2027</strong></td><td><span class="phase-pill-sm" style="background:#BB3E03">AMO Active</span></td><td class="bold-r">$56,993</td><td class="imp-r">341,768</td><td class="r">$22,797</td><td class="imp-r">136,707</td><td class="r" style="color:#CCC">—</td><td class="imp-r" style="color:#CCC">—</td><td class="r" style="color:#BB3E03;font-weight:600">$34,196</td><td class="imp-r" style="color:#BB3E03">205,061</td></tr>
+        <tr><td><strong>Mar 2027</strong></td><td><span class="phase-pill-sm" style="background:#BB3E03">AMO Active</span></td><td class="bold-r">$57,532</td><td class="imp-r">345,001</td><td class="r">$23,013</td><td class="imp-r">138,000</td><td class="r" style="color:#CCC">—</td><td class="imp-r" style="color:#CCC">—</td><td class="r" style="color:#BB3E03;font-weight:600">$34,519</td><td class="imp-r" style="color:#BB3E03">207,001</td></tr>
+        <tr class="total"><td colspan="2">PROGRAM TOTAL (est.)</td><td class="bold-r">$630,705</td><td class="imp-r">3,782,120</td><td class="bold-r">$308,064</td><td class="imp-r">1,847,500</td><td class="bold-r" style="color:#9B2226">$51,563</td><td class="imp-r" style="color:#9B2226">309,309</td><td class="bold-r" style="color:#BB3E03">$203,085</td><td class="imp-r" style="color:#BB3E03">1,218,624</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:10px;color:var(--muted);margin-top:8px;font-style:italic">⚠️ All figures are estimates based on $166.76 CPM × planned impressions. Actual per-asset delivery determined by EQ5 platform optimization.</p>
+    <p style="font-size:10px;color:var(--muted);margin-top:4px;font-style:italic">* April 2026 reflects a partial month only — all always-on assets launch April 15. Full run rate of ~$56,993/month begins May 1, 2026.</p>
+  </div>
+
+  <!-- ══ SECTION 2: AMO TOUCHPOINTS ══ -->
+  <div class="section" id="touchpoints">
+    <div class="section-hdr">
+      <div class="badge-num">2</div>
+      <h2>AMO Touchpoints — Asset Mapping &amp; Alignment</h2>
+    </div>
+
+    <div class="alert alert-action">
+      <div class="alert-icon">📋</div>
+      <div>
+        <h4>Please Confirm — Which Assets Are Part of AMO Trigger vs. Always On</h4>
+        <p>The table below shows our current understanding of which assets map to which AMO touchpoint and whether they are part of the <strong>Always On (Full List)</strong> or <strong>AMO/Trigger List</strong> bucket. Please confirm this mapping is correct, or flag any assets that should move between buckets before we finalize the EQ5 campaign structure.</p>
+      </div>
+    </div>
+
+    <div class="card" style="padding:0;overflow:hidden">
+    <table class="tp-table">
+      <thead>
+        <tr>
+          <th style="min-width:240px">Asset</th>
+          <th class="c">Touchpoint</th>
+          <th class="c">Segment</th>
+          <th class="c">List Type</th>
+          <th class="c">Platform</th>
+          <th class="c">Placement</th>
+          <th class="c">In AMO?</th>
+          <th class="c">Start Date</th>
+          <th class="c">End Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Always On -->
+        <tr style="background:#F0F9F9"><td colspan="9" style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--teal);padding:8px 12px">ALWAYS ON — FULL LIST (Upper Funnel · April 15, 2026 – March 31, 2027)</td></tr>
+        <tr><td style="font-size:11px;font-weight:500;color:var(--dark)">Proactive Screening — OAB Education</td><td class="c"><span class="tp-chip" style="background:#0A9396;font-size:9px">1.5 OAB Ed</span></td><td class="c"><span style="background:#E8E8E8;color:#444;font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px">ALL</span></td><td class="c" style="font-size:10px;color:var(--teal)">Full List</td><td class="c" style="font-size:10px">Meta</td><td class="c" style="font-size:10px">Reel</td><td class="c"><span class="cross">✗ No</span></td><td class="c" style="font-size:10px;font-family:'DM Mono',monospace">April 15, 2026</td>
+          <td class="c" style="font-size:10px;font-family:'DM Mono',monospace">March 31, 2027</td></tr>
+        <tr><td style="font-size:11px;font-weight:500;color:var(--dark)">Fact vs. Fiction — OAB+BPH Bruce (Reel)</td><td class="c"><span class="tp-chip" style="background:#94D2BD;color:#001219;font-size:9px">2 Tx Aware</span></td><td class="c"><span style="background:#E8E8E8;color:#444;font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px">ALL</span></td><td class="c" style="font-size:10px;color:var(--teal)">Full List</td><td class="c" style="font-size:10px">Meta</td><td class="c" style="font-size:10px">Reel</td><td class="c"><span class="cross">✗ No</span></td><td class="c" style="font-size:10px;font-family:'DM Mono',monospace">April 15, 2026</td>
+          <td class="c" style="font-size:10px;font-family:'DM Mono',monospace">March 31, 2027</td></tr>
+        <tr><td style="font-size:11px;font-weight:500;color:var(--dark)">Side Effects — Treatment Ed · URO</td><td class="c"><span class="tp-chip" style="background:#94D2BD;color:#001219;font-size:9px">2 Tx Aware</span></td><td class="c"><span style="background:#E0F4F4;color:#005F73;font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px">URO</span></td><td class="c" style="font-size:10px;color:var(--teal)">Full List</td><td class="c" style="font-size:10px">Meta</td><td class="c" style="font-size:10px">Story</td><td class="c"><span class="cross">✗ No</span></td><td class="c" style="font-size:10px;font-family:'DM Mono',monospace">April 15, 2026</td>
+          <td class="c" style="font-size:10px;font-family:'DM Mono',monospace">March 31, 2027</td></tr>
+        <tr><td style="font-size:11px;font-weight:500;color:var(--dark)">Side Effects — Treatment Ed · PCP</td><td class="c"><span class="tp-chip" style="background:#94D2BD;color:#001219;font-size:9px">2 Tx Aware</span></td><td class="c"><span style="background:#FEF3C7;color:#92400E;font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px">PCP</span></td><td class="c" style="font-size:10px;color:var(--teal)">Full List</td><td class="c" style="font-size:10px">Meta</td><td class="c" style="font-size:10px">Story</td><td class="c"><span class="cross">✗ No</span></td><td class="c" style="font-size:10px;font-family:'DM Mono',monospace">April 15, 2026</td>
+          <td class="c" style="font-size:10px;font-family:'DM Mono',monospace">March 31, 2027</td></tr>
+        <tr><td style="font-size:11px;font-weight:500;color:var(--dark)">Fact vs. Fiction — OAB+BPH Rodney (In-Feed)</td><td class="c"><span class="tp-chip" style="background:#94D2BD;color:#001219;font-size:9px">2 Tx Aware</span></td><td class="c"><span style="background:#E8E8E8;color:#444;font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px">ALL</span></td><td class="c" style="font-size:10px;color:var(--teal)">Full List</td><td class="c" style="font-size:10px">Meta FB</td><td class="c" style="font-size:10px">In-Feed</td><td class="c"><span class="cross">✗ No</span></td><td class="c" style="font-size:10px;font-family:'DM Mono',monospace">April 15, 2026</td>
+          <td class="c" style="font-size:10px;font-family:'DM Mono',monospace">March 31, 2027</td></tr>
+        <tr><td style="font-size:11px;font-weight:500;color:var(--dark)">No Generic Substitute · URO</td><td class="c"><span class="tp-chip" style="background:#EE9B00;color:#001219;font-size:9px">3 Consider</span></td><td class="c"><span style="background:#E0F4F4;color:#005F73;font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px">URO</span></td><td class="c" style="font-size:10px;color:var(--teal)">Full List</td><td class="c" style="font-size:10px">Meta</td><td class="c" style="font-size:10px">Reel</td><td class="c"><span class="cross">✗ No</span></td><td class="c" style="font-size:10px;font-family:'DM Mono',monospace">April 15, 2026</td>
+          <td class="c" style="font-size:10px;font-family:'DM Mono',monospace">March 31, 2027</td></tr>
+        <tr><td style="font-size:11px;font-weight:500;color:var(--dark)">No Generic Substitute · PCP</td><td class="c"><span class="tp-chip" style="background:#EE9B00;color:#001219;font-size:9px">3 Consider</span></td><td class="c"><span style="background:#FEF3C7;color:#92400E;font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px">PCP</span></td><td class="c" style="font-size:10px;color:var(--teal)">Full List</td><td class="c" style="font-size:10px">Meta</td><td class="c" style="font-size:10px">Reel</td><td class="c"><span class="cross">✗ No</span></td><td class="c" style="font-size:10px;font-family:'DM Mono',monospace">April 15, 2026</td>
+          <td class="c" style="font-size:10px;font-family:'DM Mono',monospace">March 31, 2027</td></tr>
+        <tr><td style="font-size:11px;font-weight:500;color:var(--dark)">Why GEMTESA PSP · URO</td><td class="c"><span class="tp-chip" style="background:#EE9B00;color:#001219;font-size:9px">3 Consider</span></td><td class="c"><span style="background:#E0F4F4;color:#005F73;font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px">URO</span></td><td class="c" style="font-size:10px;color:var(--teal)">Full List</td><td class="c" style="font-size:10px">Meta</td><td class="c" style="font-size:10px">Story</td><td class="c"><span class="cross">✗ No</span></td><td class="c" style="font-size:10px;font-family:'DM Mono',monospace">April 15, 2026</td>
+          <td class="c" style="font-size:10px;font-family:'DM Mono',monospace">March 31, 2027</td></tr>
+        <tr><td style="font-size:11px;font-weight:500;color:var(--dark)">Why GEMTESA PSP · PCP</td><td class="c"><span class="tp-chip" style="background:#EE9B00;color:#001219;font-size:9px">3 Consider</span></td><td class="c"><span style="background:#FEF3C7;color:#92400E;font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px">PCP</span></td><td class="c" style="font-size:10px;color:var(--teal)">Full List</td><td class="c" style="font-size:10px">Meta</td><td class="c" style="font-size:10px">Story</td><td class="c"><span class="cross">✗ No</span></td><td class="c" style="font-size:10px;font-family:'DM Mono',monospace">April 15, 2026</td>
+          <td class="c" style="font-size:10px;font-family:'DM Mono',monospace">March 31, 2027</td></tr>
+        <!-- AMO / Trigger List -->
+        <tr style="background:#FFF8EC"><td colspan="9" style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#CA6702;padding:8px 12px">AMO / TRIGGER LIST (Lower Funnel — Activates August 15)</td></tr>
+        <tr><td style="font-size:11px;font-weight:500;color:var(--dark)">Simple Dosing · URO</td><td class="c"><span class="tp-chip" style="background:#CA6702;font-size:9px">4 Trial</span></td><td class="c"><span style="background:#E0F4F4;color:#005F73;font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px">URO</span></td><td class="c" style="font-size:10px;color:#CA6702;font-weight:600">Trigger</td><td class="c" style="font-size:10px">Meta</td><td class="c" style="font-size:10px">In-Feed</td><td class="c"><span class="check">✓ Yes</span></td><td class="c" style="font-size:10px;font-family:'DM Mono',monospace">August 15, 2026</td>
+          <td class="c" style="font-size:10px;font-family:'DM Mono',monospace">March 31, 2027</td></tr>
+        <tr><td style="font-size:11px;font-weight:500;color:var(--dark)">Simple Dosing · PCP</td><td class="c"><span class="tp-chip" style="background:#CA6702;font-size:9px">4 Trial</span></td><td class="c"><span style="background:#FEF3C7;color:#92400E;font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px">PCP</span></td><td class="c" style="font-size:10px;color:#CA6702;font-weight:600">Trigger</td><td class="c" style="font-size:10px">Meta</td><td class="c" style="font-size:10px">In-Feed</td><td class="c"><span class="check">✓ Yes</span></td><td class="c" style="font-size:10px;font-family:'DM Mono',monospace">August 15, 2026</td>
+          <td class="c" style="font-size:10px;font-family:'DM Mono',monospace">March 31, 2027</td></tr>
+        <tr><td style="font-size:11px;font-weight:500;color:var(--dark)">Value Prop · PCP Enthusiast / Growers (×2)</td><td class="c"><span class="tp-chip" style="background:#BB3E03;font-size:9px">5 Adoption</span></td><td class="c"><span style="background:#FEF3C7;color:#92400E;font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px">PCP</span></td><td class="c" style="font-size:10px;color:#CA6702;font-weight:600">Trigger</td><td class="c" style="font-size:10px">Meta</td><td class="c" style="font-size:10px">Reel</td><td class="c"><span class="check">✓ Yes</span></td><td class="c" style="font-size:10px;font-family:'DM Mono',monospace">August 15, 2026</td>
+          <td class="c" style="font-size:10px;font-family:'DM Mono',monospace">March 31, 2027</td></tr>
+        <tr><td style="font-size:11px;font-weight:500;color:var(--dark)">Value Prop · URO Enthusiast / Growers (×2)</td><td class="c"><span class="tp-chip" style="background:#BB3E03;font-size:9px">5 Adoption</span></td><td class="c"><span style="background:#E0F4F4;color:#005F73;font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px">URO</span></td><td class="c" style="font-size:10px;color:#CA6702;font-weight:600">Trigger</td><td class="c" style="font-size:10px">Meta</td><td class="c" style="font-size:10px">Reel</td><td class="c"><span class="check">✓ Yes</span></td><td class="c" style="font-size:10px;font-family:'DM Mono',monospace">August 15, 2026</td>
+          <td class="c" style="font-size:10px;font-family:'DM Mono',monospace">March 31, 2027</td></tr>
+        <tr><td style="font-size:11px;font-weight:500;color:var(--dark)">Unrestricted Access · URO Cap 1 / Alt Cap (×2)</td><td class="c"><span class="tp-chip" style="background:#BB3E03;font-size:9px">5 Adoption</span></td><td class="c"><span style="background:#E0F4F4;color:#005F73;font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px">URO</span></td><td class="c" style="font-size:10px;color:#CA6702;font-weight:600">Trigger</td><td class="c" style="font-size:10px">Meta</td><td class="c" style="font-size:10px">In-Feed</td><td class="c"><span class="check">✓ Yes</span></td><td class="c" style="font-size:10px;font-family:'DM Mono',monospace">August 15, 2026</td>
+          <td class="c" style="font-size:10px;font-family:'DM Mono',monospace">March 31, 2027</td></tr>
+        <tr><td style="font-size:11px;font-weight:500;color:var(--dark)">Unrestricted Access · PCP Cap 1 / Alt Cap (×2)</td><td class="c"><span class="tp-chip" style="background:#BB3E03;font-size:9px">5 Adoption</span></td><td class="c"><span style="background:#FEF3C7;color:#92400E;font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px">PCP</span></td><td class="c" style="font-size:10px;color:#CA6702;font-weight:600">Trigger</td><td class="c" style="font-size:10px">Meta</td><td class="c" style="font-size:10px">In-Feed</td><td class="c"><span class="check">✓ Yes</span></td><td class="c" style="font-size:10px;font-family:'DM Mono',monospace">August 15, 2026</td>
+          <td class="c" style="font-size:10px;font-family:'DM Mono',monospace">March 31, 2027</td></tr>
+        <tr><td style="font-size:11px;font-weight:500;color:var(--dark)">PSP · URO Cap 1 / Alt Cap (×2)</td><td class="c"><span class="tp-chip" style="background:#BB3E03;font-size:9px">5 Adoption</span></td><td class="c"><span style="background:#E0F4F4;color:#005F73;font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px">URO</span></td><td class="c" style="font-size:10px;color:#CA6702;font-weight:600">Trigger</td><td class="c" style="font-size:10px">Meta</td><td class="c" style="font-size:10px">In-Feed</td><td class="c"><span class="check">✓ Yes</span></td><td class="c" style="font-size:10px;font-family:'DM Mono',monospace">August 15, 2026</td>
+          <td class="c" style="font-size:10px;font-family:'DM Mono',monospace">March 31, 2027</td></tr>
+        <tr><td style="font-size:11px;font-weight:500;color:var(--dark)">PSP · PCP Cap 1 / Alt Cap (×2)</td><td class="c"><span class="tp-chip" style="background:#BB3E03;font-size:9px">5 Adoption</span></td><td class="c"><span style="background:#FEF3C7;color:#92400E;font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px">PCP</span></td><td class="c" style="font-size:10px;color:#CA6702;font-weight:600">Trigger</td><td class="c" style="font-size:10px">Meta</td><td class="c" style="font-size:10px">In-Feed</td><td class="c"><span class="check">✓ Yes</span></td><td class="c" style="font-size:10px;font-family:'DM Mono',monospace">August 15, 2026</td>
+          <td class="c" style="font-size:10px;font-family:'DM Mono',monospace">March 31, 2027</td></tr>
+        <!-- DOL -->
+        <tr style="background:#FFF1F1"><td colspan="9" style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#9B2226;padding:8px 12px">DOL — PHYSICIAN INFLUENCER (Instagram · June–August only · NOT part of AMO trigger)</td></tr>
+        <tr><td style="font-size:11px;font-weight:500;color:var(--dark)">Dr. Rahul Mehan — Story 1, Story 2, Reel 1, Reel 2</td><td class="c"><span class="tp-chip" style="background:#9B2226;font-size:9px">DOL</span></td><td class="c"><span style="background:#FFE4E4;color:#9B2226;font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px">DOL</span></td><td class="c" style="font-size:10px;color:#9B2226;font-weight:600">DOL (Separate)</td><td class="c" style="font-size:10px">Instagram</td><td class="c" style="font-size:10px">Story + Reel</td><td class="c"><span class="cross">✗ Not AMO</span></td><td class="c" style="font-size:10px;font-family:'DM Mono',monospace">June 15, 2026</td>
+          <td class="c" style="font-size:10px;font-family:'DM Mono',monospace">August 9, 2026</td></tr>
+        <tr><td style="font-size:11px;font-weight:500;color:var(--dark)">Dr. Rena Malik — Story 1, Story 2, Reel 1, Reel 2</td><td class="c"><span class="tp-chip" style="background:#9B2226;font-size:9px">DOL</span></td><td class="c"><span style="background:#FFE4E4;color:#9B2226;font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px">DOL</span></td><td class="c" style="font-size:10px;color:#9B2226;font-weight:600">DOL (Separate)</td><td class="c" style="font-size:10px">Instagram</td><td class="c" style="font-size:10px">Story + Reel</td><td class="c"><span class="cross">✗ Not AMO</span></td><td class="c" style="font-size:10px;font-family:'DM Mono',monospace">June 15, 2026</td>
+          <td class="c" style="font-size:10px;font-family:'DM Mono',monospace">August 9, 2026</td></tr>
+        <tr><td style="font-size:11px;font-weight:500;color:var(--dark)">Dr. Fenwa Milhouse — Story 1, Story 2, Reel 1, Reel 2</td><td class="c"><span class="tp-chip" style="background:#9B2226;font-size:9px">DOL</span></td><td class="c"><span style="background:#FFE4E4;color:#9B2226;font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px">DOL</span></td><td class="c" style="font-size:10px;color:#9B2226;font-weight:600">DOL (Separate)</td><td class="c" style="font-size:10px">Instagram</td><td class="c" style="font-size:10px">Story + Reel</td><td class="c"><span class="cross">✗ Not AMO</span></td><td class="c" style="font-size:10px;font-family:'DM Mono',monospace">June 22, 2026</td>
+          <td class="c" style="font-size:10px;font-family:'DM Mono',monospace">August 16, 2026</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 3: PROGRAM OVERVIEW ══ -->
+  <div class="section" id="program">
+    <div class="section-hdr">
+      <div class="badge-num">3</div>
+      <h2>Program Overview — How It Works</h2>
+    </div>
+
+    <div class="overview-grid">
+      <div>
+        <div class="card">
+          <h3>What AMO Does</h3>
+          <p>CMI's Advanced Marketing Orchestration (AMO) sends <strong>weekly NPI trigger files</strong> to EQ5 every Monday morning. Each file contains a list of specific HCPs and which journey stage they're at. EQ5 activates the corresponding Meta ads to those exact HCPs by Tuesday — deterministic, NPI-level targeting, not broad audience segments.</p>
+          <p style="margin-top:10px">The trigger list shrinks and advances as HCPs move through the funnel: <strong>Education → Awareness → Consideration → Trial → Adoption</strong>. Lower-funnel HCPs see progressively more specific, conversion-focused messaging.</p>
+        </div>
+        <div class="card">
+          <h3>EQ5's Role in the Program</h3>
+          <p>EQ5 is the <strong>execution and optimization layer</strong> — receiving CMI's trigger lists, firing Meta campaigns to NPI-matched HCPs, managing creative rotation across touchpoints, and returning PLD (Placement Level Data) reports every Wednesday. That performance data feeds back into CMI's AMO orchestration loop to inform next-best-action decisions.</p>
+          <p style="margin-top:10px"><strong>Important:</strong> Within each AMO touchpoint group, EQ5's platform dynamically optimizes spend toward the best-performing assets. Impression and spend distribution across individual assets will vary — estimated figures show an equal split for planning purposes only.</p>
+        </div>
+      </div>
+      <div>
+        <div class="kpi-mini">
+          <div class="kpi-m" style="border-top-color:var(--gold)"><div class="lbl">Total Budget (est.)</div><div class="val">$630K</div><div class="sub">Apr '26 – Mar '27</div></div>
+          <div class="kpi-m"><div class="lbl">Total Impressions (est.)</div><div class="val">3.78M</div><div class="sub">Based on $166.76 CPM</div></div>
+          <div class="kpi-m"><div class="lbl">HCP Audience</div><div class="val">43,603</div><div class="sub">40,144 reachable on Meta</div></div>
+          <div class="kpi-m" style="border-top-color:var(--teal-l)"><div class="lbl">Match Rate</div><div class="val">92.1%</div><div class="sub">Best-in-class for HCP</div></div>
+          <div class="kpi-m"><div class="lbl">Creative Assets</div><div class="val">35</div><div class="sub">Reel · Story · In-Feed</div></div>
+          <div class="kpi-m" style="border-top-color:var(--amber)"><div class="lbl">AMO Launch Date</div><div class="val">Aug 15</div><div class="sub">2026 trigger files start</div></div>
+        </div>
+        <div class="card" style="margin-top:10px">
+          <h3>Weekly Operational Cadence</h3>
+          <ul style="list-style:none;padding:0">
+            <li style="padding:6px 0;border-bottom:1px solid var(--border);font-size:11px;color:var(--mid)"><span style="font-family:'DM Mono',monospace;font-weight:600;color:var(--teal);font-size:10px">MONDAY</span> — CMI uploads trigger file to SFTP</li>
+            <li style="padding:6px 0;border-bottom:1px solid var(--border);font-size:11px;color:var(--mid)"><span style="font-family:'DM Mono',monospace;font-weight:600;color:var(--teal);font-size:10px">TUESDAY</span> — EQ5 activates Meta campaigns to matched HCPs</li>
+            <li style="padding:6px 0;border-bottom:1px solid var(--border);font-size:11px;color:var(--mid)"><span style="font-family:'DM Mono',monospace;font-weight:600;color:var(--teal);font-size:10px">WEDNESDAY</span> — EQ5 returns PLD report (Mon–Sun coverage)</li>
+            <li style="padding:6px 0;font-size:11px;color:var(--mid)"><span style="font-family:'DM Mono',monospace;font-weight:600;color:var(--teal);font-size:10px">ONGOING</span> — CMI uses data to update next-best-action triggers</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 4: OPEN ALIGNMENT ITEMS ══ -->
+  <div class="section" id="alignment">
+    <div class="section-hdr">
+      <div class="badge-num">4</div>
+      <h2>Open Items Requiring Alignment</h2>
+    </div>
+
+    <div class="align-grid">
+      <div class="align-item urgent">
+        <h4>Budget Split Confirmation</h4>
+        <div class="owner">⚡ PRIORITY — CMI → EQ5</div>
+        <ul>
+          <li>Confirm 40% DOL / 60% Always On split for June–July</li>
+          <li>Confirm 60% Trigger/AMO / 40% Always On split from Aug 17</li>
+          <li>Confirm August overlap split (DOL wind-down vs. Trigger ramp-up)</li>
+          <li>Confirm dedicated DOL media budget vs. pulling from overall program budget</li>
+        </ul>
+      </div>
+      <div class="align-item" style="border-left-color:#0A9396">
+        <h4>AMO Technical Setup — <span style="color:#166534">&#10003; Complete (May 29, 2026)</span></h4>
+        <div class="owner" style="color:#0A9396">EQ5 x CMI Data Flow Sync · Raj Tambe (Compas), Jordan McDowell, Paige Stanton, Stephany Rosa, David Bashynskyy</div>
+        <ul>
+          <li>SFTP active — credentials, FIA documentation, and sample execution file all received from Raj Tambe (May 29–31)</li>
+          <li>Weekly cadence confirmed — CMI sends Monday before 6am ET &rarr; EQ5 activates Tuesday &rarr; PLD returned Wednesday</li>
+          <li>File format confirmed — standard CMI format; AMO adds Message Number in Column 30 (required in both send and return files)</li>
+          <li><strong>Still pending:</strong> Jordan's mockup metadata file (due before June) and live metadata file (~July 18)</li>
+        </ul>
+      </div>
+      <div class="align-item">
+        <h4>Asset → Touchpoint Mapping</h4>
+        <div class="owner">CMI → EQ5 / Area 23</div>
+        <ul>
+          <li>Confirm which assets are AMO-triggered vs. always on (see table above)</li>
+          <li>Confirm DOL assets are explicitly outside AMO trigger logic</li>
+          <li>Align on PCP vs. URO creative rotation approach per touchpoint</li>
+          <li>Confirm 50/50 rotation for Phase 1 — locked or pending?</li>
+        </ul>
+      </div>
+      <div class="align-item">
+        <h4>DOL Influencer Setup</h4>
+        <div class="owner">TwelveNote / /Prompt → EQ5 (Stephany)</div>
+        <ul>
+          <li>Confirm all 3 doctors linked their IG profiles to Gemtesa Meta pages</li>
+          <li>EQ5 sent connection requests May 15 — awaiting confirmation</li>
+          <li>TikTok expansion decision needed before MLR/PRC submission</li>
+          <li>Facebook Reels DOL setup — separate from IG, needs own creative config</li>
+        </ul>
+      </div>
+      <div class="align-item">
+        <h4>Reporting &amp; Comment Moderation</h4>
+        <div class="owner">Stephany (EQ5) → CMI</div>
+        <ul>
+          <li>Weekly PLD report cadence — <strong>confirmed Wednesday returns</strong>, covering Monday–Sunday activity. EQ5 will maintain an email thread each week confirming file receipt and activation status.</li>
+          <li>Meta comment control plugin process needs documentation for adverse event risk on Partnership/DOL ads</li>
+          <li>Reporting dashboard framework to align before launch</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end main -->
+
+<div class="footer">
+  <p><strong>Prepared by Equals 5</strong> for CMI / Compas · Gemtesa HCP AMO Program · Updated June 3, 2026</p>
+  <p style="margin-top:6px">⚠️ All spend and impression figures are estimates based on $166.76 CPM × planned impression volumes. Actual delivery determined by EQ5 platform optimization. Not a commitment of delivery.</p>
+  <p style="margin-top:6px;color:rgba(255,255,255,0.4)">Technical data flow meeting completed May 29, 2026 · SFTP credentials and FIA documentation received from Raj Tambe (Compas) · Sample execution file uploaded to /Outgoing folder on SFTP · Outstanding: Jordan McDowell mockup metadata file + live metadata file (~July 18)</p>
+</div>
+
+</body>
+</html>
